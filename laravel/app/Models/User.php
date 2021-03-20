@@ -44,4 +44,16 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public static function getUser($credentials){
+        return DB::table('users')->select('id','name','email')->where('email',$credentials['email'])->first();
+    }
+
+    public function getJWTIdentifier(){
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims(){
+        return [];
+    }
+
 }
